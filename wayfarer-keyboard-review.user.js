@@ -684,33 +684,39 @@
       font-weight: bold;
     }
     .${operationDescriptionClassName} {
-      position: fixed;
+      position: sticky;
       bottom: 0;
       left: 0;
-      right: 0;
-      width: 90%;
+      width: fit-content;
       height: fit-content;
-      margin: auto;
+      padding: 1.5em;
 
       background: rgba(255, 255, 255, 0.3);
       color: black;
       font-size: 0.5em;
-      padding: 1.5em;
       z-index: 9999;
       backdrop-filter: blur(2em);
-      border-radius: 1em 1em 0 0;
+      border-radius: 2em;
       box-shadow: 0 0 1.5em rgb(0 0 0 / 20%);
+    }
+    .${keyDescriptionsClassName} {
+      visibility: collapse;
     }
     .${keyDescriptionsClassName} .${descriptionClassName} {
       height: 0;
+      width: 0;
       overflow: hidden;
-      transition: all 0.5s;
+      transition: height 0.5s, width 0.5s;
     }
     #${checkboxId} {
       display: none;
     }
+    #${checkboxId}:checked ~ .${keyDescriptionsClassName} {
+      visibility: visible;
+    }
     #${checkboxId}:checked ~ .${keyDescriptionsClassName} .${descriptionClassName} {
       height: 100%;
+      width: 100%;
       opacity: 1;
     }
     `);
