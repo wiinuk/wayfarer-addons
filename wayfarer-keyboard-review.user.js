@@ -709,10 +709,10 @@ Enter:評価を提出して次の審査へ　Shiftとの同時押しでコメン
 D:重複処理
 Q/E:メイン/補足写真の拡大
 R/F:地図の拡大/縮小`;
-  const keyStyle = { color: "red", fontSize: "0.5em" }
-  const descriptionStyle = { fontSize: "0.2em" }
+    const keyStyle = { color: "red" }
+    const descriptionStyle = { fontSize: "0.2em" }
 
-    const keyDescriptions = descriptionText
+    const keyDescriptionElements = descriptionText
       .split('\n')
       .map(line => { 
         const [key, description] = line.split(":")
@@ -721,11 +721,12 @@ R/F:地図の拡大/縮小`;
           element("span", { style: descriptionStyle }, description),
         )
       })
-    const containerElement = element('div', { class: "operationDescription" }, ...keyDescriptions);
+    const containerElement = element('div', {
+      class: "plugin_operationDescription",
+      style: { position: "fixed", bottom: "0", left: "0", width: "100%", background: "rgba(0,0,0,0.5)", color: "white", fontSize: "0.5em", padding: "10px", zIndex: "9999" }
+    }, ...keyDescriptionElements
+    );
 
-    containerElement.classList.add('operationDescription');
-    document
-      .querySelector('wf-header > div > div')
-      .appendChild(containerElement);
+    document.body.appendChild(containerElement);
   }
 })();
