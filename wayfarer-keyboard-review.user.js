@@ -26,6 +26,7 @@
 // <https://github.com/tehstone/wayfarer-addons/blob/main/LICENSE>
 // If not, see <https://www.gnu.org/licenses/>.
 
+// @ts-check
 /* eslint-env es6 */
 /* eslint no-var: "error" */
 /* eslint indent: ['error', 2] */
@@ -73,6 +74,7 @@
         return;
       }
       addCss();
+      addOperationDescription();
       initKeyboardCtrl();
 
     } catch (e) {
@@ -654,4 +656,76 @@
     document.querySelector('head').appendChild(style);
   }
 
+  function addOperationDescription() {
+    /**
+     * @typedef {object} ElementCreateOptions
+     * @property {Partial<HTMLElement["style"]> =} style
+     * @property {string =} class
+     */
+
+    /**
+     * @param {HTMLElement} element 
+     * @param {Readonly<ElementCreateOptions>} options 
+     */
+     const applyOptions = (element, options) => {
+      if (options.style) {
+        for (const key in options.style) {
+          element.style[key] = options.style[key];
+        }
+        element.classList.add(options.class);
+      }
+    }
+    /**
+     * @typedef { readonly [attributeName: string, attributeValue: string]
+     * | HTMLElement
+     * | string
+     * | Readonly<ElementCreateOptions>
+     * } ElementChildren
+     */
+    /** @type {{ <T extends keyof HTMLElementTagNameMap>(tagName: T, ...parameters: ElementChildren[]): HTMLElementTagNameMap[T] }} */
+    /**
+     * @template {keyof HTMLElementTagNameMap} T
+     * @param {T} tagName
+     * @param  {...ElementChildren} children 
+     * @returns 
+     */
+    const element = (tagName, ...children) => {
+      const e = document.createElement(tagName);
+      for (const c of children) {
+        typeof c === "string" ? e.appendChild(new Text(c)) :
+        c instanceof HTMLElement ? e.appendChild(c) :
+        c instanceof Array ? e.setAttribute(c[0], c[1]) :
+        applyOptions(e, c);
+      }
+      return e
+    }
+
+    const descriptionText = `数字キー:星を入力、否認理由を選択、編集審査で承認する内容を選択
+文字キー:写真審査で否認する写真を選択
+Tab:写真審査ですべて承認する
+Back space:否認理由メニューを一つ戻す
+←→:審査項目を移動
+Enter:評価を提出して次の審査へ　Shiftとの同時押しでコメント欄での改行　Ctrlとの同時押しで評価を提出して審査を終了
+D:重複処理
+Q/E:メイン/補足写真の拡大
+R/F:地図の拡大/縮小`;
+  const keyStyle = { color: "red", fontSize: "0.5em" }
+  const descriptionStyle = { fontSize: "0.2em" }
+
+    const keyDescriptions = descriptionText
+      .split('\n')
+      .map(line => { 
+        const [key, description] = line.split(":")
+        return element("div",
+          element("span", { style: keyStyle }, key),
+          element("span", { style: descriptionStyle }, description),
+        )
+      })
+    const containerElement = element('div', { class: "operationDescription" }, ...keyDescriptions);
+
+    containerElement.classList.add('operationDescription');
+    document
+      .querySelector('wf-header > div > div')
+      .appendChild(containerElement);
+  }
 })();
