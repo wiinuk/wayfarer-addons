@@ -74,6 +74,7 @@
         return;
       }
       addCss();
+      addOperationDescriptionCss();
       addOperationDescription();
       initKeyboardCtrl();
 
@@ -656,6 +657,56 @@
     document.querySelector('head').appendChild(style);
   }
 
+  /**
+   * @param {string} css
+   */
+  function addCssElement(css) {
+    const style = document.createElement('style');
+    style.type = 'text/css';
+    style.innerHTML = css;
+    document.head.appendChild(style);
+  }
+  const operationDescriptionClassNames = Object.freeze({
+      operationDescriptionClassName: "plugin_operation_description",
+      descriptionClassName: "plugin_description",
+      keyClassName: "plugin_key",
+      keyDescriptionsClassName: "plugin_key_descriptions",
+      checkboxId: "plugin_checkbox",
+  })
+  function addOperationDescriptionCss() {
+    const { descriptionClassName, keyClassName, operationDescriptionClassName, keyDescriptionsClassName, checkboxId } = operationDescriptionClassNames
+    addCssElement(`
+    .${descriptionClassName} {
+      text-shadow: 0 0 0.5em black;
+      font-size: 0.2em;
+    }
+    .${keyClassName} {
+      color: rgb(255, 150, 150);
+    }
+    .${operationDescriptionClassName} {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      color: white;
+      font-size: 0.5em;
+      padding: 10px;
+      z-index: 9999;
+      backdrop-filter: blur(5px);
+      border-radius: 1em 1em 0 0;
+    }
+    .${keyDescriptionsClassName} div {
+      height: 0;
+      overflow: hidden;
+      transition: all 0.5s;
+    }
+    #${checkboxId}:checked ~ .${keyDescriptionsClassName} div {
+      height: 100%;
+      opacity: 1;
+    }
+    `);
+  }
   function addOperationDescription() {
     /**
      * @typedef {object} ElementCreateOptions
@@ -701,16 +752,6 @@
       }
       return e
     }
-    /**
-     * @param {string} css
-     */
-    const addCss = css => {
-      const style = document.createElement('style');
-      style.type = 'text/css';
-      style.innerHTML = css;
-      document.head.appendChild(style)
-    }
-
     const descriptionText = `数字キー:星を入力、否認理由を選択、編集審査で承認する内容を選択
 文字キー:写真審査で否認する写真を選択
 Tab:写真審査ですべて承認する
@@ -720,9 +761,7 @@ Enter:評価を提出して次の審査へ　Shiftとの同時押しでコメン
 D:重複処理
 Q/E:メイン/補足写真の拡大
 R/F:地図の拡大/縮小`;
-    const descriptionClassName = "plugin_description_text";
-    const keyClassName = "plugin_key_text";
-
+    const { keyClassName, descriptionClassName, checkboxId, operationDescriptionClassName, keyDescriptionsClassName } = operationDescriptionClassNames
     const keyDescriptions = descriptionText
       .split('\n')
       .map(line => { 
@@ -733,13 +772,10 @@ R/F:地図の拡大/縮小`;
         )
       })
     const titleLabel = element("label", "操作説明");
-    const checkboxId = "plugin_key_descriptions_checkbox";
     const checkbox = element("input",
       ["type", "checkbox"],
       ["id", checkboxId],
     );
-    const operationDescriptionClassName = "plugin_operationDescription"
-    const keyDescriptionsClassName = "plugin_keyDescriptions"
     const operationDescription = element('div',
       { class: operationDescriptionClassName },
       titleLabel,
@@ -747,37 +783,6 @@ R/F:地図の拡大/縮小`;
       element("div", { class: keyDescriptionsClassName }, ...keyDescriptions)
     );
 
-    addCss(`
-    .${descriptionClassName} {
-      text-shadow: 0 0 0.5em black;
-      font-size: 0.2em;
-    }
-    .${keyClassName} {
-      color: rgb(255, 150, 150);
-    }
-    .${operationDescriptionClassName} {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      color: white;
-      font-size: 0.5em;
-      padding: 10px;
-      z-index: 9999;
-      backdrop-filter: blur(5px);
-      border-radius: 1em 1em 0 0;
-    }
-    .${keyDescriptionsClassName} div {
-      height: 0;
-      overflow: hidden;
-      transition: all 0.5s;
-    }
-    #${checkboxId}:checked ~ .${keyDescriptionsClassName} div {
-      height: 100%;
-      opacity: 1;
-    }
-    `);
     document.body.appendChild(operationDescription);
   }
 })();
