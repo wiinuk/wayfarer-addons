@@ -771,11 +771,8 @@ R/F:地図の拡大/縮小`;
           element("span", { class: descriptionClassName }, description),
         )
       })
-    const titleLabel = element("label", "操作説明");
-    const checkbox = element("input",
-      ["type", "checkbox"],
-      ["id", checkboxId],
-    );
+    const titleLabel = element("label", ["for", checkboxId], "操作説明");
+    const checkbox = element("input", ["type", "checkbox"], ["id", checkboxId]);
     const operationDescription = element('div',
       { class: operationDescriptionClassName },
       titleLabel,
