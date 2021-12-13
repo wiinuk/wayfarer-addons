@@ -723,9 +723,9 @@
         for (const key in options.style) {
           element.style[key] = options.style[key];
         }
-        if (options.class) {
-          element.classList.add(options.class)
-        }
+      }
+      if (options.class != null) {
+        element.classList.add(options.class)
       }
     }
     /**
