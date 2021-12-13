@@ -677,25 +677,29 @@
     const { descriptionClassName, keyClassName, operationDescriptionClassName, keyDescriptionsClassName, checkboxId } = operationDescriptionClassNames
     addCssElement(`
     .${descriptionClassName} {
-      text-shadow: 0 0 0.5em black;
       font-size: 0.2em;
     }
     .${keyClassName} {
       color: rgb(255, 150, 150);
+      font-weight: bold;
     }
     .${operationDescriptionClassName} {
       position: fixed;
       bottom: 0;
       left: 0;
-      width: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      color: white;
+      right: 0;
+      width: 90%;
+      height: fit-content;
+      margin: auto;
+
+      background: rgba(255, 255, 255, 0.3);
+      color: black;
       font-size: 0.5em;
       padding: 1.5em;
       z-index: 9999;
-      opacity: 0.8;
-      backdrop-filter: blur(0.8em);
+      backdrop-filter: blur(2em);
       border-radius: 1em 1em 0 0;
+      box-shadow: 0 0 1.5em rgb(0 0 0 / 20%);
     }
     .${keyDescriptionsClassName} div {
       height: 0;
