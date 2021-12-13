@@ -721,9 +721,11 @@ R/F:地図の拡大/縮小`;
           element("span", { style: descriptionStyle }, description),
         )
       })
-    const containerElement = element('div', {
+    const containerElement = element('div',
+    ["style", "backdropFilter: blur(5px)"],
+    {
       class: "plugin_operationDescription",
-      style: { position: "fixed", bottom: "0", left: "0", width: "100%", background: "rgba(0,0,0,0.5)", color: "white", fontSize: "0.5em", padding: "10px", zIndex: "9999" }
+      style: { position: "fixed", bottom: "0", left: "0", width: "100%", background: "rgba(0,0,0,0.5)", color: "white", fontSize: "0.5em", padding: "10px", zIndex: "9999" },
     }, ...keyDescriptionElements
     );
 
