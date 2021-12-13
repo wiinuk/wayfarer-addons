@@ -705,8 +705,9 @@
     .${keyDescriptionsClassName} .${descriptionClassName} {
       height: 0;
       width: 0;
+      opacity: 0;
       overflow: hidden;
-      transition: height 0.5s, width 0.5s;
+      transition: height 0.5s, width 0.5s, opacity 0.5s;
     }
     #${checkboxId} {
       display: none;
