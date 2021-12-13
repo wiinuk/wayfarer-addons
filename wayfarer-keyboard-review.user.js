@@ -691,9 +691,10 @@
       background: rgba(0, 0, 0, 0.5);
       color: white;
       font-size: 0.5em;
-      padding: 10px;
+      padding: 1.5em;
       z-index: 9999;
-      backdrop-filter: blur(5px);
+      opacity: 0.8;
+      backdrop-filter: blur(0.8em);
       border-radius: 1em 1em 0 0;
     }
     .${keyDescriptionsClassName} div {
