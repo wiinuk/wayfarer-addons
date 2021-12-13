@@ -680,7 +680,7 @@
       font-size: 0.2em;
     }
     .${keyClassName} {
-      color: rgb(255, 150, 150);
+      color: rgb(153, 18, 18);
       font-weight: bold;
     }
     .${operationDescriptionClassName} {
@@ -775,8 +775,12 @@ R/F:地図の拡大/縮小`;
       .map(line => { 
         const [key, description] = line.split(":")
         return element("tr",
-          element("td", { class: descriptionClassName }, { class: keyClassName }, key),
-          element("td", { class: descriptionClassName }, description),
+          element("td",
+            element("div", { class: descriptionClassName }, { class: keyClassName }, key)
+          ),
+          element("td",
+            element("div", { class: descriptionClassName }, description)
+          ),
         )
       })
     const titleLabel = element("label", ["for", checkboxId], "操作説明");
