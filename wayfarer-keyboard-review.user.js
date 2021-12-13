@@ -701,12 +701,15 @@
       border-radius: 1em 1em 0 0;
       box-shadow: 0 0 1.5em rgb(0 0 0 / 20%);
     }
-    .${keyDescriptionsClassName} div {
+    .${keyDescriptionsClassName} .${descriptionClassName} {
       height: 0;
       overflow: hidden;
       transition: all 0.5s;
     }
-    #${checkboxId}:checked ~ .${keyDescriptionsClassName} div {
+    #${checkboxId} {
+      display: none;
+    }
+    #${checkboxId}:checked ~ .${keyDescriptionsClassName} .${descriptionClassName} {
       height: 100%;
       opacity: 1;
     }
@@ -771,9 +774,9 @@ R/F:地図の拡大/縮小`;
       .split('\n')
       .map(line => { 
         const [key, description] = line.split(":")
-        return element("div",
-          element("span", { class: keyClassName }, key),
-          element("span", { class: descriptionClassName }, description),
+        return element("tr",
+          element("td", { class: descriptionClassName }, { class: keyClassName }, key),
+          element("td", { class: descriptionClassName }, description),
         )
       })
     const titleLabel = element("label", ["for", checkboxId], "操作説明");
@@ -782,7 +785,9 @@ R/F:地図の拡大/縮小`;
       { class: operationDescriptionClassName },
       titleLabel,
       checkbox,
-      element("div", { class: keyDescriptionsClassName }, ...keyDescriptions)
+      element("table", { class: keyDescriptionsClassName },
+        element("tbody", ...keyDescriptions)
+      )
     );
 
     document.body.appendChild(operationDescription);
