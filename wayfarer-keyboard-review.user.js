@@ -801,6 +801,6 @@ R/F:地図の拡大/縮小`;
       )
     );
 
-    document.body.appendChild(operationDescription);
+    document.querySelector(".mat-drawer-content").appendChild(operationDescription);
   }
 })();
